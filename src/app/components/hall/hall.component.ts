@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { StateService } from 'src/app/services/state-service.service';
 
 @Component({
@@ -6,13 +7,16 @@ import { StateService } from 'src/app/services/state-service.service';
   templateUrl: './hall.component.html',
   styleUrls: ['./hall.component.sass'],
 })
-export class HallComponent {
+export class HallComponent implements OnDestroy {
   // Random HEX color.
   public backgroundColor: string;
 
+  // Subscription to observable.
+  private subscription: Subscription;
+
   constructor(stateService: StateService) {
     // Subscribe to Time value changes and call color generator.
-    stateService.timeSource.subscribe(() => {
+    this.subscription = stateService.timeSource.subscribe(() => {
       this.backgroundColor = this.generateRandomColor();
     });
   }
@@ -22,5 +26,9 @@ export class HallComponent {
     return (
       '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
