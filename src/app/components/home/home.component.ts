@@ -27,7 +27,7 @@ export class HomeComponent {
      */
     this.ngZone.runOutsideAngular(() => {
       ngZone.run(() => {
-        // Every second render new value to DOM element.
+        // Every second renders new value to DOM element using  custom rendering.
         setInterval(() => {
           this.renderer.setProperty(
             this.time.nativeElement,
