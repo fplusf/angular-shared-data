@@ -14,15 +14,17 @@ export class HallComponent implements OnDestroy {
   // Subscription to observable.
   private subscription: Subscription;
 
-  constructor(stateService: StateService) {
+  constructor(private stateService: StateService) {}
+
+  ngOnInit(): void {
     // Subscribe to Time value changes and call color generator.
-    this.subscription = stateService.timeSource.subscribe(() => {
+    this.subscription = this.stateService.timeSource.subscribe(() => {
       this.backgroundColor = this.generateRandomColor();
     });
   }
 
   // Generate random HEX color on every call.
-  private generateRandomColor() {
+  private generateRandomColor(): string {
     return (
       '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
     );

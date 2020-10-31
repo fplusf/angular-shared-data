@@ -20,13 +20,15 @@ export class HomeComponent {
     private ngZone: NgZone,
     private renderer: Renderer2,
     private stateService: StateService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     /**
      *  This code uses NgZone to run asynchronous calculation
      *  outside the Angular zone to optimize performance.
      */
     this.ngZone.runOutsideAngular(() => {
-      ngZone.run(() => {
+      this.ngZone.run(() => {
         // Every second renders new value to DOM element using  custom rendering.
         setInterval(() => {
           this.renderer.setProperty(
@@ -46,7 +48,7 @@ export class HomeComponent {
   }
 
   // Get current local time.
-  private getCurrentTime() {
+  private getCurrentTime(): string {
     const today = new Date();
     return (
       today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
